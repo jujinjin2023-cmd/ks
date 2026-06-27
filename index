@@ -1,1 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>换电站运维考试 · 随机抽题</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 24px 20px 32px;
+            transition: all 0.2s;
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0b1e33;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .subhead {
+            color: #6b7a8f;
+            font-size: 14px;
+            border-left: 3px solid #2a7de1;
+            padding-left: 12px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            background: #f0f4fe;
+            border-radius: 8px;
+            padding: 8px 14px;
+            line-height: 1.5;
+        }
+        .exam-paper {
+            background: #fafcff;
+            border-radius: 20px;
+            padding: 8px 4px;
+            margin: 12px 0 20px;
+        }
+        .question-item {
+            background: white;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 20, 50, 0.04);
+            border: 1px solid #eef3f8;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.15s;
+        }
+        .question-item:last-child {
+            margin-bottom: 0;
+        }
+        .q-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 28px;
+            background: #e7edf8;
+            color: #1a3a5e;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .q-num.mandatory {
+            background: #fde7e9;
+            color: #b3363f;
+        }
+        .q-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #14273e;
+            word-break: break-word;
+        }
+        .q-text .tag {
+            display: inline-block;
+            background: #eef3f8;
+            font-size: 11px;
+            padding: 0 10px;
+            border-radius: 30px;
+            color: #4a5b72;
+            margin-right: 6px;
+            font-weight: 500;
+        }
+        .mandatory-badge {
+            display: inline-block;
+            background: #fde7e9;
+            color: #b3363f;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 0 10px;
+            border-radius: 30px;
+            margin-left: 6px;
+        }
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 600;
+            background: #1a3a5e;
+            color: white;
+            box-shadow: 0 8px 20px rgba(26, 58, 94, 0.20);
+            cursor: pointer;
+            transition: all 0.15s;
+            touch-action: manipulation;
+            user-select: none;
+        }
+        .btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(26, 58, 94, 0.25);
+        }
+        .btn-secondary {
+            background: #eef3f8;
+            color: #1a3a5e;
+            box-shadow: none;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .btn-secondary:active {
+            background: #dce4ed;
+        }
+        .btn-primary {
+            background: #2a7de1;
+            box-shadow: 0 8px 20px rgba(42, 125, 225, 0.30);
+        }
+        .btn-primary:active {
+            background: #1f66c2;
+        }
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #8a9aa8;
+            font-size: 12px;
+            border-top: 1px solid #eef3f8;
+            padding-top: 20px;
+        }
+        .footer span {
+            background: #f0f4fe;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+        .empty-state {
+            padding: 36px 20px;
+            text-align: center;
+            color: #8a9aa8;
+            font-size: 15px;
+            background: #fafcff;
+            border-radius: 24px;
+            border: 1px dashed #d0dae6;
+        }
+        .count-badge {
+            display: inline-block;
+            background: #e7edf8;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a3a5e;
+        }
+        @media (max-width: 480px) {
+            .container { padding: 16px; }
+            .question-item { padding: 12px 14px; }
+            .q-text { font-size: 14px; }
+            .btn { padding: 14px 16px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>
+        <span>📋 运维抽题</span>
+        <span class="count-badge" id="totalCount">20题</span>
+    </h1>
+    <div class="subhead">
+        <span>⚡ 随机抽取 4 道（1-19号） + 必考题（20号）</span>
+    </div>
 
+    <!-- 试卷区域 -->
+    <div class="exam-paper" id="paper">
+        <!-- 动态渲染 -->
+        <div class="empty-state" id="emptyState">
+            <div style="font-size: 40px; margin-bottom: 12px;">📌</div>
+            点击下方按钮抽取题目
+        </div>
+        <div id="questionList" style="display: none;"></div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="actions">
+        <button class="btn btn-primary" id="drawBtn">🎲 随机抽题</button>
+        <button class="btn btn-secondary" id="resetBtn">⟳ 重置</button>
+    </div>
+
+    <div class="footer">
+        <span>version 1.0 · 换电站题库</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 题库（共20题，第20题是必考题） ----------
+        const QUESTIONS = [
+            { id: 1,  text: "换电站一共有多少烟感？具体位置明确指出" },
+            { id: 2,  text: "换电站一共有多少替罪羊？具体位置在哪里" },
+            { id: 3,  text: "换电站电池仓一共用了几种传感器？" },
+            { id: 4,  text: "控制柜里有多少电源模块？为什么有大有小？" },
+            { id: 5,  text: "分别测量一下动力柜塑壳开关下口的相电压、线电压，并说出测量数值是否在正常范围" },
+            { id: 6,  text: "伺服驱动器的作用是什么？" },
+            { id: 7,  text: "排水泵的供电是多少伏？" },
+            { id: 8,  text: "充电机里有无烟感？若有，一共几个？" },
+            { id: 9,  text: "前归中有几种传感器？" },
+            { id: 10, text: "加解锁平台上电池落到位传感器有几个？" },
+            { id: 11, text: "明确说出换电站监控的验收标准" },
+            { id: 12, text: "地坑的液位计是用的什么类型的传感器？" },
+            { id: 13, text: "换电站内，用于实现旋转运动和直线运动的动力驱动设备分别有哪些？" },
+            { id: 14, text: "换电站哪些设备是用380V供电？" },
+            { id: 15, text: "烟感供电电压是多少？" },
+            { id: 16, text: "换电站有无串口服务器？若有是哪一个？" },
+            { id: 17, text: "串口服务器采用集中通信方式？" },
+            { id: 18, text: "换电站有几个PLC，哪个是安全PLC？" },
+            { id: 19, text: "替罪羊归主PLC管还是安全PLC管？" },
+            { id: 20, text: "分别说出换电站动力柜、控制柜里所有的电子元器件，并说出他们的作用是什么？必考题" }
+        ];
+
+        // DOM 元素
+        const questionListEl = document.getElementById('questionList');
+        const emptyStateEl = document.getElementById('emptyState');
+        const drawBtn = document.getElementById('drawBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const totalCount = document.getElementById('totalCount');
+
+        // 显示当前抽取的题目（数组）
+        let currentQuestions = [];
+
+        // ---------- 辅助函数 ----------
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // 从 1~19 中随机抽取 4 个不重复的编号
+        function getRandomFourFromNineteen() {
+            const candidates = Array.from({ length: 19 }, (_, i) => i + 1); // [1,2,...,19]
+            const shuffled = shuffleArray([...candidates]);
+            return shuffled.slice(0, 4); // 取前4个
+        }
+
+        // 根据编号数组返回题目对象数组（包含 id 和 text）
+        function getQuestionsByIds(ids) {
+            return ids.map(id => {
+                const q = QUESTIONS.find(item => item.id === id);
+                return q || { id, text: '题目未找到' };
+            });
+        }
+
+        // 核心抽题逻辑：抽取 4 道随机（1-19）+ 必考题（20）
+        function drawQuestions() {
+            const randomIds = getRandomFourFromNineteen();
+            // 必考题 id=20
+            const finalIds = [...randomIds, 20];
+            // 按 id 升序排列（便于阅读，也可保持随机顺序，这里按题号升序比较自然）
+            finalIds.sort((a, b) => a - b);
+            const selected = getQuestionsByIds(finalIds);
+            return selected;
+        }
+
+        // 渲染题目列表
+        function renderQuestions(questions) {
+            // 隐藏空状态，显示列表容器
+            emptyStateEl.style.display = 'none';
+            questionListEl.style.display = 'block';
+
+            // 清空并重新填充
+            questionListEl.innerHTML = '';
+
+            if (!questions || questions.length === 0) {
+                // 如果没题目，显示空状态
+                emptyStateEl.style.display = 'block';
+                questionListEl.style.display = 'none';
+                return;
+            }
+
+            questions.forEach((q, index) => {
+                const isMandatory = (q.id === 20);
+                const div = document.createElement('div');
+                div.className = 'question-item';
+
+                const numSpan = document.createElement('span');
+                numSpan.className = 'q-num' + (isMandatory ? ' mandatory' : '');
+                numSpan.textContent = q.id;
+
+                const textSpan = document.createElement('span');
+                textSpan.className = 'q-text';
+                // 如果是必考题，加个小标签
+                if (isMandatory) {
+                    textSpan.innerHTML = `<span class="tag">⭐ 必考</span> ${q.text}`;
+                } else {
+                    textSpan.textContent = q.text;
+                }
+
+                div.appendChild(numSpan);
+                div.appendChild(textSpan);
+                questionListEl.appendChild(div);
+            });
+
+            // 更新标题中的题数（可选）
+            // 不更新
+        }
+
+        // 重置到空状态
+        function resetToEmpty() {
+            currentQuestions = [];
+            emptyStateEl.style.display = 'block';
+            questionListEl.style.display = 'none';
+            questionListEl.innerHTML = '';
+        }
+
+        // 执行抽题并渲染
+        function performDraw() {
+            const drawn = drawQuestions();
+            currentQuestions = drawn;
+            renderQuestions(drawn);
+        }
+
+        // ---------- 事件绑定 ----------
+        drawBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            performDraw();
+        });
+
+        resetBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            resetToEmpty();
+        });
+
+        // 初始化显示空状态
+        resetToEmpty();
+
+        // 可选：显示总题数
+        totalCount.textContent = QUESTIONS.length + '题';
+
+        // 如果用户想第一次打开就自动抽一组，可以取消注释下一行
+        // performDraw();
+
+        console.log('✅ 运维抽题系统已启动 (version 1.0)');
+    })();
+</script>
+</body>
+</html>
